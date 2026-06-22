@@ -54,7 +54,7 @@ def predict_lower_back(data: LowerBackInput):
         
         # حساب احتمالية الثقة
         probabilities = lower_back_model.predict_proba(feat_array)[0]
-        confidence = probabilities[prediction] * 100
+        confidence = float(probabilities[prediction])
 
         # الترتيب ده هو اللي الموديل اتعلم عليه في كود التدريب
         labels = ["Normal", "Herniated Disc", "Spinal Stenosis"]
@@ -62,7 +62,8 @@ def predict_lower_back(data: LowerBackInput):
         return {
             "prediction": prediction,
             "label": labels[prediction],
-            "confidence": f"{confidence:.2f}%",
+            "confidence": confidence,
+            "probabilities": probabilities.tolist(),
             "status": "success"
         }
     except Exception as e:
